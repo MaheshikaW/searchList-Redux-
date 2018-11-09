@@ -1,5 +1,8 @@
 const defaultState = {
   studentRecords :[],
+  isLoading:false,
+  err:undefined
+  
  
   
     
@@ -16,20 +19,21 @@ const defaultState = {
 
             
             let studentRecords= [...action.payload,...state.studentRecords, ]
-            state = {...state, studentRecords:studentRecords }
-            console.log(studentRecords)
+            state = {...state, studentRecords:studentRecords ,isLoading:false,err:false}
+            //console.log(studentRecords)
 			break
            // state 
-            break
+          
         }
         case "FETCH_DATA_START":{
-       
+
+       state = {...state ,isLoading:true,err:false}
             break
 
         }
         case "RECIEVE_ERROR":{
-           console.log(action.payload)
-
+        
+            state = {...state ,isLoading:false,err:action.payload}
             break
         }
       
