@@ -1,8 +1,8 @@
-import React ,{Component} from 'react';
+import React, { Component } from 'react';
 
 export class Pagination extends React.Component {
-    
-    render(){
+
+    render() {
         const stylepagination = {
             padding: 15,
         }
@@ -11,15 +11,16 @@ export class Pagination extends React.Component {
             cursor: 'pointer'
         }
 
-        return(
-        <div>
-             <div style={stylepagination}>
+        return (
+            <div>
+                <div style={stylepagination}>
                     <a style={stylea} onClick={this.props.handlePagesLess}>&laquo;</a>
                     {this.props.renderPageNumbers}
                     <a style={stylea} onClick={this.props.handlePages} >&raquo;</a>
                 </div>
             </div>
-        );}
+        );
+    }
 }
 
 export default Pagination;
