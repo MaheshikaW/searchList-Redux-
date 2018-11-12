@@ -25,8 +25,8 @@ const styleForm ={
             <Glyphicon glyph="search" /> &nbsp;
             <FormControl
             type="text"
-            onChange={this.props.searchHandler}
-            value={this.props.term}
+            onChange={this.props.serachBySchoolname}
+            value={this.props.schoolName}
             placeholder="School Name.."
            
           /> 
@@ -34,7 +34,7 @@ const styleForm ={
            &nbsp;
            <FormControl
             type="text"
-            onChange={this.props.searchYearHandler}
+            onChange={this.props.searchByYear}
                 value={this.props.year}
             placeholder="School Year.."
            
@@ -42,7 +42,7 @@ const styleForm ={
               &nbsp;
               <FormControl
             type="text"
-            onChange={this.props.searchDistrictHandler}
+            onChange={this.props.searchByDistrict}
                 value={this.props.district}
             placeholder="District.."
            
