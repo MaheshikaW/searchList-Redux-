@@ -15,21 +15,24 @@ export const fetchData=()=>{
     })
 })
 }
-export const  serachBySchoolname =(schoolname,allRecords) =>{
+export const  serachByValue =(schoolname,allRecords) =>{
     return ((dispatch)=>{
-		dispatch(serachByschoolName(schoolname,allRecords))
+		dispatch(serachByvalue(schoolname,allRecords))
 	})
 }
-export const searchByYear =(year,allRecords)=>{
+
+
+export const sortByValue=(allRecords,sortval)=>{
     return ((dispatch)=>{
-        dispatch(searchByyear(year,allRecords))
+        dispatch(sortByvalue(allRecords,sortval))
     })
 }
-export const searchByDistrict=(district,allRecords)=>{
+export const sortByClassSize=(allRecords,sortval)=>{
     return ((dispatch)=>{
-        dispatch(searchBydistrict(district,allRecords))
+        dispatch(sortByClass(allRecords,sortval))
     })
 }
+
 
 
 
@@ -54,23 +57,23 @@ function recieveErr(err){
     }
 }
 
-function serachByschoolName(schoolname,allRecords){
+function serachByvalue(schoolname,allRecords){
     return {
-         type:"SEARCH_BY_SCHOOLNAME",
+         type:"SEARCH_BY_VALUE",
          payload:{schoolname,allRecords}
      }
      
  }
- function searchByyear(year,allRecords){
-    return {
-         type:"SEARCH_BY_YEAR",
-         payload:{year,allRecords}
-     }
-     
- }
- function searchBydistrict(district,allRecords){
+
+ function sortByvalue(allRecords,sortval){
      return{
-         type:"SEARCH_BY_DISTRICT",
-         payload:{district,allRecords}
+         type:"SORT_BY_VALUE",
+         payload:{allRecords,sortval}
      }
  }
+ function sortByClass(allRecords,sortval){
+    return{
+        type:"SORT_BY_CLASS",
+        payload:{allRecords,sortval}
+    }
+}

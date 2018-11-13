@@ -21,12 +21,14 @@ export class Search extends React.Component {
             <br /><br />
 
             <Form inline style={styleForm}>
+            
               <span>{this.props.error}</span>
               <Glyphicon glyph="search" /> &nbsp;
             <FormControl
                 type="text"
-                onChange={this.props.serachBySchoolname}
+                onChange={this.props.serachByValue}
                 value={this.props.schoolName}
+                name="schoolName"
                 placeholder="School Name.."
 
               />
@@ -34,16 +36,18 @@ export class Search extends React.Component {
               &nbsp;
            <FormControl
                 type="text"
-                onChange={this.props.searchByYear}
+                onChange={this.props.serachByValue}
                 value={this.props.year}
+                name="year"
                 placeholder="School Year.."
 
               />
               &nbsp;
               <FormControl
                 type="text"
-                onChange={this.props.searchByDistrict}
+                onChange={this.props.serachByValue}
                 value={this.props.district}
+                name="district"
                 placeholder="District.."
 
               />

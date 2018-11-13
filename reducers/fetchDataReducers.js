@@ -1,5 +1,6 @@
 const defaultState = {
   studentRecords :[],
+  clickTimes:0,
   isLoading:false,
   err:undefined
   
@@ -13,6 +14,8 @@ const defaultState = {
 
             
             let studentRecords= [...action.payload,...state.studentRecords, ]
+
+            
             state = {...state, studentRecords:studentRecords ,isLoading:false,err:false}
             //console.log(studentRecords)
 			break
@@ -30,28 +33,47 @@ const defaultState = {
             state = {...state ,isLoading:false,err:action.payload}
             break
         }
-        case "SEARCH_BY_SCHOOLNAME":{
+        case "SEARCH_BY_VALUE":{
             let AllRecords = action.payload.allRecords
-            let filterList = AllRecords.filter(student =>
-             student["schoolname"] === action.payload.schoolname || student["schoolname"].toLowerCase().includes(action.payload.schoolname))
-             state ={...state,studentRecords:filterList}
-             break
-        }
-        case "SEARCH_BY_YEAR":{
-            let AllRecords = action.payload.allRecords
-            let filterList = AllRecords.filter(student =>
-             student["schoolyear"] === action.payload.year || student["schoolyear"].toLowerCase().includes(action.payload.year))
-             state ={...state,studentRecords:filterList}
-             break
-        }
-        case "SEARCH_BY_DISTRICT":{
-            let AllRecords = action.payload.allRecords
-            let filterList = AllRecords.filter(student =>
-             student["districtname"] === action.payload.district || student["districtname"].toLowerCase().includes(action.payload.district))
-             state ={...state,studentRecords:filterList}
+            
+            
+             let filterList = AllRecords.filter(student =>
+               (student["schoolname"] === action.payload.schoolname || student["schoolname"] .toLowerCase().includes(action.payload.schoolname )) || ( student["schoolyear"] == action.payload.schoolname || student["schoolyear"] .toLowerCase().includes(action.payload.schoolname ) ) || (student["districtname"] == action.payload.schoolname ||  student["districtname"] .toLowerCase().includes(action.payload.schoolname ) ) )
+            
+           
+               state ={...state,studentRecords:filterList}
+        
              break
         }
       
+        case "SORT_BY_VALUE":{
+            let AllRecords = action.payload.allRecords
+            let sortValue = action.payload.sortval
+            let sortList = AllRecords.filter(student => student[ sortValue ] != null).sort((a, b) => {
+              
+                if (a[sortValue] < b[sortValue]) { return -1; }
+               if (a[sortValue] > b[sortValue]) { return 1; }
+            
+              return 0;
+
+            })
+
+            state ={...state,studentRecords:sortList}
+           // console.log(sortList,sortValue)
+          break
+        }
+       case "SORT_BY_CLASS":{
+           let AllRecords = action.payload.allRecords
+            let sortValue = action.payload.sortval
+            let sortList = AllRecords.filter(student => student[ sortValue ] != null).sort((a, b) => 
+                a[sortValue] - b[sortValue])
+       
+
+            state ={...state,studentRecords:sortList}
+            //console.log(sortList)
+         break
+        }
+       
       
     }
     return state;
