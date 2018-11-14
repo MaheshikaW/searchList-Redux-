@@ -22,14 +22,14 @@ export const  serachByValue =(schoolname,allRecords) =>{
 }
 
 
-export const sortByValue=(allRecords,sortval)=>{
+export const sortByValue=(allRecords,sortval,clicks)=>{
     return ((dispatch)=>{
-        dispatch(sortByvalue(allRecords,sortval))
+        dispatch(sortByvalue(allRecords,sortval,clicks))
     })
 }
-export const sortByClassSize=(allRecords,sortval)=>{
+export const sortByClassSize=(allRecords,sortval,clicks)=>{
     return ((dispatch)=>{
-        dispatch(sortByClass(allRecords,sortval))
+        dispatch(sortByClass(allRecords,sortval,clicks))
     })
 }
 
@@ -65,15 +65,15 @@ function serachByvalue(schoolname,allRecords){
      
  }
 
- function sortByvalue(allRecords,sortval){
+ function sortByvalue(allRecords,sortval,clicks){
      return{
          type:"SORT_BY_VALUE",
-         payload:{allRecords,sortval}
+         payload:{allRecords,sortval,clicks}
      }
  }
- function sortByClass(allRecords,sortval){
+ function sortByClass(allRecords,sortval,clicks){
     return{
         type:"SORT_BY_CLASS",
-        payload:{allRecords,sortval}
+        payload:{allRecords,sortval,clicks}
     }
 }

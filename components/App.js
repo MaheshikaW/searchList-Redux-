@@ -16,12 +16,14 @@ class App extends Component {
             year:'',
             sortValue: '',
             district:'',
+            clickTimes:0
+         
             
         }
         this.handleClick = this.handleClick.bind(this);
         this.handlePages = this.handlePages.bind(this);
         this.handlePagesLess = this.handlePagesLess.bind(this);
-        this. serachByValue = this. serachByValue.bind(this);
+        this.serachByValue = this. serachByValue.bind(this);
         this.sortBySchool = this.sortBySchool.bind(this);
         this.sortByYear = this.sortByYear.bind(this);
         this.sortByDistrict = this.sortByDistrict.bind(this);
@@ -31,55 +33,47 @@ class App extends Component {
     }
 
     componentDidMount() {
-        
+      
         this.props.dispatch(fetchDataActions.fetchData())
     }
     serachByValue(event) {
-       
         this.setState({ [event.target.name]: event.target.value })
+        if(event.target.value === ''){
+            this.props.dispatch(fetchDataActions.fetchData())
+        }
+        else{
         let allRecords = this.props.studentRecords
         this.props.dispatch(fetchDataActions.serachByValue(event.target.value, allRecords))
-
-    }
     
+}}
     sortBySchool() {
         let allRecords = this.props.studentRecords
-        this.setState({
-            sortValue: "schoolname"
-        }, () => {
-            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue))
+        this.setState({ sortValue: "schoolname",clickTimes:this.state.clickTimes+1}, () => {
+            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue,this.state.clickTimes))
         })
       }
     sortByYear() {
         let allRecords = this.props.studentRecords
-        this.setState({
-            sortValue: "schoolyear"
-        }, () => {
-            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue))
+        this.setState({sortValue: "schoolyear" ,clickTimes:this.state.clickTimes+1}, () => {
+            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue,this.state.clickTimes))
         })
     }
     sortByDistrict() {
         let allRecords = this.props.studentRecords
-        this.setState({
-            sortValue: "districtname"
-        }, () => {
-            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue))
+        this.setState({sortValue: "districtname",clickTimes:this.state.clickTimes+1}, () => {
+            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue,this.state.clickTimes))
         })
     }
     sortByDemographic() { 
         let allRecords = this.props.studentRecords
-        this.setState({
-            sortValue: "demographic"
-        }, () => {
-            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue))
+        this.setState({sortValue: "demographic",clickTimes:this.state.clickTimes+1}, () => {
+            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue,this.state.clickTimes))
         })
     }
     sortByClassSize() {
         let allRecords = this.props.studentRecords
-        this.setState({
-            sortValue: "classsize"
-        }, () => {
-            this.props.dispatch(fetchDataActions.sortByClassSize(allRecords,this.state.sortValue))
+        this.setState({sortValue: "classsize",clickTimes:this.state.clickTimes+1}, () => {
+            this.props.dispatch(fetchDataActions.sortByClassSize(allRecords,this.state.sortValue,this.state.clickTimes))
         })
     }
 
@@ -115,8 +109,7 @@ class App extends Component {
 
         }
   
-else {
-            data = <div >{currentrecords.map((student, index) =>
+else {data = <div >{currentrecords.map((student, index) =>
                 <div key={index}><div className="col-md-4" >{student.schoolname}</div>
                     <div className="col-md-1">{student.schoolyear}</div>&nbsp;
                       <div className="col-md-3" >{student.districtname}</div>
@@ -148,7 +141,7 @@ else {
             <div>
              
                 <Search schoolName={this.state.schoolName} year={this.state.year} district={this.state.district}  serachByValue={this.serachByValue} error={this.props.err}  />
-                <div> <Pageheader sortBySchool={this.sortBySchool} sortByYear={this.sortByYear} sortByDistrict={this.sortByDistrict}
+                <div><Pageheader sortBySchool={this.sortBySchool} sortByYear={this.sortByYear} sortByDistrict={this.sortByDistrict}
                     sortByDemographic={this.sortByDemographic} sortByClassSize={this.sortByClassSize} />
                     {data}</div>
                 <div>
@@ -161,9 +154,7 @@ else {
 }
 const storeProps = (store) => ({
     studentRecords: store.SearchList.studentRecords,
+    searchList :store.SearchList.searchList,
     error: store.SearchList.err,
-   
-   
-   
-})
+   })
 export default connect(storeProps)(App);
