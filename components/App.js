@@ -12,13 +12,16 @@ class App extends Component {
             currentPage: 1,
             recordsPerPage: 35,
             pageNumbersPerPage: 5,
-            schoolName: '',
-            year:'',
+            schoolname: '',
+            schoolyear:'',
             sortValue: '',
-            district:'',
+            districtname:'',
             clickTimes:0
          
             
+        }
+        this.searchValues={
+
         }
         this.handleClick = this.handleClick.bind(this);
         this.handlePages = this.handlePages.bind(this);
@@ -38,14 +41,10 @@ class App extends Component {
     }
     serachByValue(event) {
         this.setState({ [event.target.name]: event.target.value })
-        if(event.target.value === ''){
-            this.props.dispatch(fetchDataActions.fetchData())
-        }
-        else{
+        this.searchValues={...this.searchValues, [event.target.name]: event.target.value}
         let allRecords = this.props.studentRecords
-        this.props.dispatch(fetchDataActions.serachByValue(event.target.value, allRecords))
-    
-}}
+        this.props.dispatch(fetchDataActions.serachByValue(this.searchValues, allRecords))
+        }
     sortBySchool() {
         let allRecords = this.props.studentRecords
         this.setState({ sortValue: "schoolname",clickTimes:this.state.clickTimes+1}, () => {
@@ -94,9 +93,9 @@ class App extends Component {
         const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
         const currentRecordsPerPage=30;
         const currentrecords = this.props.studentRecords.slice(indexOfFirstRecord, indexOfLastRecord);
-
+      // console.log(this.props.allRecords.length)
         let data;
-        if (this.state.schoolName !== '' || this.state.year !== '' || this.state.district !== '' || this.state.sortValue !=='' ) {
+        if (this.state.schoolname !== '' || this.state.schoolyear !== '' || this.state.districtname !== '' || this.state.sortValue !=='' ) {
             data = <div >{this.props.studentRecords.slice((currentPage * currentRecordsPerPage - currentRecordsPerPage), 
                 (currentPage * currentRecordsPerPage)).map((student, index) =>
                 <div key={index}><div className="col-md-4"  >{student.schoolname}</div>
@@ -140,7 +139,7 @@ else {data = <div >{currentrecords.map((student, index) =>
         return (
             <div>
              
-                <Search schoolName={this.state.schoolName} year={this.state.year} district={this.state.district}  serachByValue={this.serachByValue} error={this.props.err}  />
+                <Search schoolname={this.state.schoolname} schoolyear={this.state.schoolyear} districtname={this.state.districtname}  serachByValue={this.serachByValue} error={this.props.err}  />
                 <div><Pageheader sortBySchool={this.sortBySchool} sortByYear={this.sortByYear} sortByDistrict={this.sortByDistrict}
                     sortByDemographic={this.sortByDemographic} sortByClassSize={this.sortByClassSize} />
                     {data}</div>
@@ -154,7 +153,7 @@ else {data = <div >{currentrecords.map((student, index) =>
 }
 const storeProps = (store) => ({
     studentRecords: store.SearchList.studentRecords,
-    searchList :store.SearchList.searchList,
+    allRecords :store.SearchList.allRecords,
     error: store.SearchList.err,
    })
 export default connect(storeProps)(App);

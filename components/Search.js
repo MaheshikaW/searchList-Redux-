@@ -27,8 +27,8 @@ export class Search extends React.Component {
             <FormControl
                 type="text"
                 onChange={this.props.serachByValue}
-                value={this.props.schoolName}
-                name="schoolName"
+                value={this.props.schoolname}
+                name="schoolname"
                 placeholder="School Name.."
 
               />
@@ -37,8 +37,8 @@ export class Search extends React.Component {
            <FormControl
                 type="text"
                 onChange={this.props.serachByValue}
-                value={this.props.year}
-                name="year"
+                value={this.props.schoolyear}
+                name="schoolyear"
                 placeholder="School Year.."
 
               />
@@ -46,8 +46,8 @@ export class Search extends React.Component {
               <FormControl
                 type="text"
                 onChange={this.props.serachByValue}
-                value={this.props.district}
-                name="district"
+                value={this.props.districtname}
+                name="districtname"
                 placeholder="District.."
 
               />

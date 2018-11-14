@@ -1,5 +1,6 @@
 const defaultState = {
     studentRecords: [],
+    allRecords:[],
     isLoading: false,
     err: undefined
 
@@ -10,8 +11,8 @@ const reducer = (state = defaultState, action) => {
 
     switch (action.type) {
         case "RECIEVE_DATA": {
-            let studentRecords = [...action.payload, ...state.studentRecords,]
-            state = { ...state, studentRecords: studentRecords, isLoading: false, err: false }
+            let studentRecords = [...action.payload, ...state.studentRecords]
+            state = { ...state, studentRecords: studentRecords, isLoading: false, err: false ,allRecords:studentRecords}
             break
         }
         case "FETCH_DATA_START": {
@@ -26,11 +27,18 @@ const reducer = (state = defaultState, action) => {
             break
         }
         case "SEARCH_BY_VALUE": {
-            let AllRecords = action.payload.allRecords
-            let filterList = AllRecords.filter(student =>
-                (student["schoolname"] === action.payload.schoolname || student["schoolname"].toLowerCase().includes(action.payload.schoolname)) || (student["schoolyear"] == action.payload.schoolname || student["schoolyear"].toLowerCase().includes(action.payload.schoolname)) || (student["districtname"] == action.payload.schoolname || student["districtname"].toLowerCase().includes(action.payload.schoolname)))
-            state = { ...state, studentRecords: filterList }
-            break
+            let AllRecords =state.allRecords
+            let searchvalues = action.payload.searchvalue
+            let filterList = AllRecords
+            console.log( searchvalues)
+            Object.keys(searchvalues).map((key,index)=>{
+                let currentFilterList = filterList.filter(student => (searchvalues[key]!="" && student[key].toLowerCase().includes(searchvalues[key] ) ))
+                filterList =  [...currentFilterList]
+            })
+         
+           state = { ...state, studentRecords: filterList}
+           
+           break
         }
 
         case "SORT_BY_VALUE": {
@@ -53,10 +61,8 @@ const reducer = (state = defaultState, action) => {
                     return 0;
                 })
             }
-
-            state = { ...state, studentRecords: sortList, clickTimes: clickTimes }
-
-            break
+                state = { ...state, studentRecords: sortList, clickTimes: clickTimes }
+                break
         }
         case "SORT_BY_CLASS": {
             let AllRecords = action.payload.allRecords

@@ -15,9 +15,9 @@ export const fetchData=()=>{
     })
 })
 }
-export const  serachByValue =(schoolname,allRecords) =>{
+export const  serachByValue =(searchvalue,allRecords) =>{
     return ((dispatch)=>{
-		dispatch(serachByvalue(schoolname,allRecords))
+		dispatch(serachByvalue(searchvalue,allRecords))
 	})
 }
 
@@ -57,10 +57,10 @@ function recieveErr(err){
     }
 }
 
-function serachByvalue(schoolname,allRecords){
+function serachByvalue(searchvalue,allRecords){
     return {
          type:"SEARCH_BY_VALUE",
-         payload:{schoolname,allRecords}
+         payload:{searchvalue,allRecords}
      }
      
  }

@@ -15,7 +15,7 @@ export class Pageheader extends React.Component {
         return (
 
             <div className="row">
-            {this.props.newList}
+          
                 <div className="col-md-4" style={styleHead} >&nbsp;&nbsp;<a onClick={this.props.sortBySchool} style={stylea}>School Name</a></div>
                 <div className="col-md-1" style={styleHead}><a onClick={this.props.sortByYear} style={stylea}>School Year</a></div>
                 <div className="col-md-3" style={styleHead}><a onClick={this.props.sortByDistrict} style={stylea}>District</a></div>
