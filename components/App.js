@@ -3,30 +3,34 @@ import { connect } from 'react-redux';
 import Search from './Search';
 import Pagination from './Pagination';
 import Pageheader from './Pageheader'
+import Navbar from './Navbar';
+import {withRouter} from 'react-router-dom';
 import * as fetchDataActions from '../Actions/fetchDataActions';
+
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             currentPage: 1,
-            recordsPerPage: 35,
+            recordsPerPage: 30,
             pageNumbersPerPage: 5,
             schoolname: '',
-            schoolyear:'',
+            schoolyear: '',
             sortValue: '',
-            districtname:'',
-            clickTimes:0
-         
-            
+            districtname: '',
+            clickTimes: 0,
+            navigate:false
+
+
         }
-        this.searchValues={
+        this.searchValues = {
 
         }
         this.handleClick = this.handleClick.bind(this);
         this.handlePages = this.handlePages.bind(this);
         this.handlePagesLess = this.handlePagesLess.bind(this);
-        this.serachByValue = this. serachByValue.bind(this);
+        this.serachByValue = this.serachByValue.bind(this);
         this.sortBySchool = this.sortBySchool.bind(this);
         this.sortByYear = this.sortByYear.bind(this);
         this.sortByDistrict = this.sortByDistrict.bind(this);
@@ -36,43 +40,46 @@ class App extends Component {
     }
 
     componentDidMount() {
-      
+        
         this.props.dispatch(fetchDataActions.fetchData())
+    }
+    componentWillUpdate(){
+        console.log("will upadate")
     }
     serachByValue(event) {
         this.setState({ [event.target.name]: event.target.value })
-        this.searchValues={...this.searchValues, [event.target.name]: event.target.value}
+        this.searchValues = { ...this.searchValues, [event.target.name]: event.target.value }
         let allRecords = this.props.studentRecords
         this.props.dispatch(fetchDataActions.serachByValue(this.searchValues, allRecords))
-        }
+    }
     sortBySchool() {
         let allRecords = this.props.studentRecords
-        this.setState({ sortValue: "schoolname",clickTimes:this.state.clickTimes+1}, () => {
-            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue,this.state.clickTimes))
+        this.setState({ sortValue: "schoolname", clickTimes: this.state.clickTimes + 1 }, () => {
+            this.props.dispatch(fetchDataActions.sortByValue(allRecords, this.state.sortValue, this.state.clickTimes))
         })
-      }
+    }
     sortByYear() {
         let allRecords = this.props.studentRecords
-        this.setState({sortValue: "schoolyear" ,clickTimes:this.state.clickTimes+1}, () => {
-            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue,this.state.clickTimes))
+        this.setState({ sortValue: "schoolyear", clickTimes: this.state.clickTimes + 1 }, () => {
+            this.props.dispatch(fetchDataActions.sortByValue(allRecords, this.state.sortValue, this.state.clickTimes))
         })
     }
     sortByDistrict() {
         let allRecords = this.props.studentRecords
-        this.setState({sortValue: "districtname",clickTimes:this.state.clickTimes+1}, () => {
-            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue,this.state.clickTimes))
+        this.setState({ sortValue: "districtname", clickTimes: this.state.clickTimes + 1 }, () => {
+            this.props.dispatch(fetchDataActions.sortByValue(allRecords, this.state.sortValue, this.state.clickTimes))
         })
     }
-    sortByDemographic() { 
+    sortByDemographic() {
         let allRecords = this.props.studentRecords
-        this.setState({sortValue: "demographic",clickTimes:this.state.clickTimes+1}, () => {
-            this.props.dispatch(fetchDataActions.sortByValue(allRecords,this.state.sortValue,this.state.clickTimes))
+        this.setState({ sortValue: "demographic", clickTimes: this.state.clickTimes + 1 }, () => {
+            this.props.dispatch(fetchDataActions.sortByValue(allRecords, this.state.sortValue, this.state.clickTimes))
         })
     }
     sortByClassSize() {
         let allRecords = this.props.studentRecords
-        this.setState({sortValue: "classsize",clickTimes:this.state.clickTimes+1}, () => {
-            this.props.dispatch(fetchDataActions.sortByClassSize(allRecords,this.state.sortValue,this.state.clickTimes))
+        this.setState({ sortValue: "classsize", clickTimes: this.state.clickTimes + 1 }, () => {
+            this.props.dispatch(fetchDataActions.sortByClassSize(allRecords, this.state.sortValue, this.state.clickTimes))
         })
     }
 
@@ -91,24 +98,25 @@ class App extends Component {
         var { currentPage, recordsPerPage, pageNumbersPerPage } = this.state;
         const indexOfLastRecord = currentPage * recordsPerPage;
         const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-        const currentRecordsPerPage=30;
+        const currentRecordsPerPage = 30;
         const currentrecords = this.props.studentRecords.slice(indexOfFirstRecord, indexOfLastRecord);
-      // console.log(this.props.allRecords.length)
+        // console.log(this.props.allRecords.length)
         let data;
-        if (this.state.schoolname !== '' || this.state.schoolyear !== '' || this.state.districtname !== '' || this.state.sortValue !=='' ) {
-            data = <div >{this.props.studentRecords.slice((currentPage * currentRecordsPerPage - currentRecordsPerPage), 
+        if (this.state.schoolname !== '' || this.state.schoolyear !== '' || this.state.districtname !== '' || this.state.sortValue !== '') {
+            data = <div >{this.props.studentRecords.slice((currentPage * currentRecordsPerPage - currentRecordsPerPage),
                 (currentPage * currentRecordsPerPage)).map((student, index) =>
-                <div key={index}><div className="col-md-4"  >{student.schoolname}</div>
-                    <div className="col-md-1">{student.schoolyear}</div>&nbsp;
+                    <div key={index}><div className="col-md-4"  >{student.schoolname}</div>
+                        <div className="col-md-1">{student.schoolyear}</div>&nbsp;
                               <div className="col-md-3" >{student.districtname}</div>
-                    <div className="col-md-2" >{student.demographic}</div>
-                    <div className="col-md-1" >{student.classsize}</div></div>
-            )
+                        <div className="col-md-2" >{student.demographic}</div>
+                        <div className="col-md-1" >{student.classsize}</div></div>
+                )
             }</div>
 
         }
-  
-else {data = <div >{currentrecords.map((student, index) =>
+
+        else {
+            data = <div >{currentrecords.map((student, index) =>
                 <div key={index}><div className="col-md-4" >{student.schoolname}</div>
                     <div className="col-md-1">{student.schoolyear}</div>&nbsp;
                       <div className="col-md-3" >{student.districtname}</div>
@@ -131,15 +139,18 @@ else {data = <div >{currentrecords.map((student, index) =>
             padding: 8,
             cursor: 'pointer'
         }
+
         const renderPageNumbers = nmub.map(number => {
             return (
-                <a style={stylea}  key={number} id={number} onClick={this.handleClick}>{number}</a>
+                <a style={stylea} key={number} id={number} onClick={this.handleClick}>{number}</a>
             );
         });
         return (
+
             <div>
-             
-                <Search schoolname={this.state.schoolname} schoolyear={this.state.schoolyear} districtname={this.state.districtname}  serachByValue={this.serachByValue} error={this.props.err}  />
+
+                <Navbar  navigate={this.state.navigate}/>
+                <Search schoolname={this.state.schoolname} schoolyear={this.state.schoolyear} districtname={this.state.districtname} serachByValue={this.serachByValue} error={this.props.err} />
                 <div><Pageheader sortBySchool={this.sortBySchool} sortByYear={this.sortByYear} sortByDistrict={this.sortByDistrict}
                     sortByDemographic={this.sortByDemographic} sortByClassSize={this.sortByClassSize} />
                     {data}</div>
@@ -147,13 +158,15 @@ else {data = <div >{currentrecords.map((student, index) =>
                     <Pagination renderPageNumbers={renderPageNumbers} handlePagesLess={this.handlePagesLess}
                         handlePages={this.handlePages} />
                 </div>
+
             </div>
+
         )
     }
 }
 const storeProps = (store) => ({
     studentRecords: store.SearchList.studentRecords,
-    allRecords :store.SearchList.allRecords,
+    allRecords: store.SearchList.allRecords,
     error: store.SearchList.err,
-   })
+})
 export default connect(storeProps)(App);

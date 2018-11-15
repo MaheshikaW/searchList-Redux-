@@ -18,8 +18,7 @@ export class Search extends React.Component {
       <div>
         <div style={styleCard} className="row">
           <div className="card">
-            <br /><br />
-
+           
             <Form inline style={styleForm}>
             
               <span>{this.props.error}</span>

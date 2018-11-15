@@ -27,9 +27,9 @@ const reducer = (state = defaultState, action) => {
             break
         }
         case "SEARCH_BY_VALUE": {
-            let AllRecords =state.allRecords
+            let FilterRecords =state.allRecords
             let searchvalues = action.payload.searchvalue
-            let filterList = AllRecords
+            let filterList = FilterRecords
             console.log( searchvalues)
             Object.keys(searchvalues).map((key,index)=>{
                 let currentFilterList = filterList.filter(student => (searchvalues[key]!="" && student[key].toLowerCase().includes(searchvalues[key] ) ))
@@ -42,19 +42,19 @@ const reducer = (state = defaultState, action) => {
         }
 
         case "SORT_BY_VALUE": {
-            let AllRecords = action.payload.allRecords
+            let FilterRecords = action.payload.allRecords
             let sortValue = action.payload.sortval
             let clickTimes = action.payload.clicks
             let sortList
             if (clickTimes % 2 == 0) {
-                sortList = AllRecords.filter(student => student[sortValue] != null).sort((a, b) => {
+                sortList = FilterRecords.filter(student => student[sortValue] != null).sort((a, b) => {
                     if (a[sortValue] < b[sortValue]) { return -1; }
                     if (a[sortValue] > b[sortValue]) { return 1; }
                     return 0;
                 })
             }
             else {
-                sortList = AllRecords.filter(student => student[sortValue] != null).sort((a, b) => {
+                sortList = FilterRecords.filter(student => student[sortValue] != null).sort((a, b) => {
                     if (a[sortValue] > b[sortValue]) { return -1; }
                     if (a[sortValue] < b[sortValue]) { return 1; }
 
@@ -65,16 +65,16 @@ const reducer = (state = defaultState, action) => {
                 break
         }
         case "SORT_BY_CLASS": {
-            let AllRecords = action.payload.allRecords
+            let FilterRecords = action.payload.allRecords
             let sortValue = action.payload.sortval
             let clickTimes = action.payload.clicks
             let sortList
             if (clickTimes % 2 == 0) {
-                sortList = AllRecords.filter(student => student[sortValue] != null).sort((a, b) =>
+                sortList = FilterRecords.filter(student => student[sortValue] != null).sort((a, b) =>
                     a[sortValue] - b[sortValue])
             }
             else {
-                sortList = AllRecords.filter(student => student[sortValue] != null).sort((a, b) =>
+                sortList = FilterRecords.filter(student => student[sortValue] != null).sort((a, b) =>
                     b[sortValue] - a[sortValue])
             }
 
